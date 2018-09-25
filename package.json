@@ -1,0 +1,19 @@
+{
+  "name": "graft",
+  "version": "1.0.0",
+  "description": "A tool for building Elm applications.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benthepoet/graft.git"
+  },
+  "author": "Ben Hanna <benpaulhanna@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/benthepoet/graft/issues"
+  },
+  "homepage": "https://github.com/benthepoet/graft#readme"
+}
