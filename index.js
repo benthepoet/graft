@@ -3,7 +3,8 @@ const server = require('./src/server');
 const processArgs = process.argv.slice(2);
 
 const defaults = {
-  root: __dirname,
+  defaultUrl: 'index.html',
+  root: './src',
   port: 8580
 };
 
