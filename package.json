@@ -2,9 +2,9 @@
   "name": "graft",
   "version": "1.0.0",
   "description": "A tool for building Elm applications.",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
+  "main": "bin/graft.js",
+  "bin": {
+    "graft": "bin/graft.js"
   },
   "repository": {
     "type": "git",

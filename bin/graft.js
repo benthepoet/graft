@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 const server = require('./src/server');
 
 const processArgs = process.argv.slice(2);
