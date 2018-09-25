@@ -1,9 +1,38 @@
 const server = require('./src/server');
 
-const options = {
-  root: __dirname
+const processArgs = process.argv.slice(2);
+
+const defaults = {
+  root: __dirname,
+  port: 8580
 };
+
+const options = Object.assign({}, defaults, parse(processArgs));
 
 server
   .createServer(options)
-  .listen(8580);
+  .listen(options.port, ready);
+
+function parse(args) {
+  const options = {};
+  const argPattern = /^--(\w+)\=(\w+)$/;
+
+  args
+    .filter(arg => argPattern.test(arg))
+    .map(arg => arg.slice(2).split('='))
+    .forEach(([key, value]) => {
+      options[key] = value;
+    });
+
+  return options;
+}
+
+function ready(error) {
+  const self = this;
+
+  if (error) {
+    throw error;
+  }
+
+  console.log('Server Ready', self.address());
+}
