@@ -17,36 +17,45 @@ function createServer(options) {
 
   return http.createServer(handleRequest);
 
-  function handleRequest(request, response) {
+  async function handleRequest(request, response) {
     const relativePath = getRelativePath(request.url);
     const filePath = rootPath + relativePath;
+    const fileExtension = filePath.split('.').pop();
 
-    console.log(request.method, relativePath);
+    try {
+      let data;
 
-    if (relativePath.indexOf(options.mainUrl) > -1) {
-      elm
-        .compileToString([filePath], Object.assign({}, options.elm))
-        .then(data => {
-          console.log('Compiled:', relativePath);
-          send(CONTENT_TYPE.JAVASCRIPT, data);
-        })
-        .catch(error => response.end(error.message));
-    }
-    else {
-      fs.readFile(filePath, (err, data) => {
-        if (err) {
-          response.writeHead(404);
-          response.end('Not Found');
-        } else {
-          response.end(data);
-        }
-      });
+      switch (fileExtension) {
+        case 'elm':
+          data = await elm.compileToString([filePath], Object.assign({}, options.elm));
+          break;
+
+        default:
+          data = await getFile(filePath);
+          break;
+      }
+
+      send(data);
+    } catch (error) {
+      fail(error);
     }
 
-    function send(contentType, data) {
-      response.setHeader('Content-Type', contentType);
+    function fail(error) {
+      console.log(error.stack);
+      response.writeHead(500);
+      response.end(error.message);
+    }
+
+    function send(data) {
+      console.log(request.method, relativePath);
       response.end(data);
     }
+  }
+
+  function getFile(filePath) {
+    return new Promise((resolve, reject) => {
+      fs.readFile(filePath, (error, data) => error ? reject(error) : resolve(data));
+    });
   }
 
   function getRelativePath(url) {
