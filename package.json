@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/benthepoet/graft/issues"
   },
-  "homepage": "https://github.com/benthepoet/graft#readme"
+  "homepage": "https://github.com/benthepoet/graft#readme",
+  "dependencies": {
+    "node-elm-compiler": "^5.0.1"
+  }
 }

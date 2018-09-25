@@ -5,7 +5,11 @@ const server = require('../src/server');
 const processArgs = process.argv.slice(2);
 
 const defaults = {
+  elm: {
+    pathToElm: './node_modules/elm/bin/elm'
+  },
   defaultUrl: 'index.html',
+  mainUrl: 'Main.elm',
   root: './src',
   port: 8580
 };
