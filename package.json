@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/benthepoet/graft#readme",
   "dependencies": {
+    "elm": "^0.19.0-bugfix2",
     "node-elm-compiler": "^5.0.1"
   }
 }

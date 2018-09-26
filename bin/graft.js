@@ -9,7 +9,6 @@ const defaults = {
     pathToElm: './node_modules/elm/bin/elm'
   },
   defaultUrl: 'index.html',
-  mainUrl: 'Main.elm',
   root: './src',
   port: 8580
 };

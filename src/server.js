@@ -3,8 +3,8 @@ const http = require('http');
 const path = require('path');
 const elm = require('node-elm-compiler');
 
-const CONTENT_TYPE = {
-  JAVASCRIPT: 'application/javascript'
+const FILE_TYPE = {
+  ELM: 'elm'
 };
 
 module.exports = {
@@ -26,7 +26,7 @@ function createServer(options) {
       let data;
 
       switch (fileExtension) {
-        case 'elm':
+        case FILE_TYPE.ELM:
           data = await elm.compileToString([filePath], Object.assign({}, options.elm));
           break;
 
@@ -52,12 +52,6 @@ function createServer(options) {
     }
   }
 
-  function getFile(filePath) {
-    return new Promise((resolve, reject) => {
-      fs.readFile(filePath, (error, data) => error ? reject(error) : resolve(data));
-    });
-  }
-
   function getRelativePath(url) {
     if (url === '/') {
       return url + defaultUrl;
@@ -65,4 +59,10 @@ function createServer(options) {
 
     return url;
   }
+}
+
+function getFile(filePath) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, (error, data) => error ? reject(error) : resolve(data));
+  });
 }
