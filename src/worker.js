@@ -4,10 +4,9 @@ const path = require('path');
 
 module.exports = { start };
 
-function compile(filePath, { outputFile, pathToElm }) {
+function compile(filePath, { outputFile }) {
   const compileOptions = {
-    output: path.resolve(outputFile),
-    pathToElm: pathToElm
+    output: path.resolve(outputFile)
   };
   
   return elm.compile(filePath, compileOptions);

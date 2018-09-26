@@ -13,7 +13,6 @@ server.start({
 });
 
 worker.start({ 
-  pathToElm: './node_modules/elm/bin/elm',
   entryFile: 'src/Main.elm', 
   outputFile: 'public/elm.js',
   ...options
