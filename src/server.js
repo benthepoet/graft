@@ -1,41 +1,20 @@
 const fs = require('fs');
 const http = require('http');
 const path = require('path');
-const elm = require('node-elm-compiler');
 
-const FILE_TYPE = {
-  ELM: 'elm'
-};
+module.exports = { start };
 
-module.exports = {
-  start
-};
-
-function createServer(options) {
-  const defaultUrl = options.defaultUrl;
-  const rootPath = path.resolve(options.root);
+function createServer({ root }) {
+  const rootPath = path.resolve(root);
 
   return http.createServer(handleRequest);
 
   async function handleRequest(request, response) {
     const relativePath = getRelativePath(request.url);
     const filePath = rootPath + relativePath;
-    const fileExtension = filePath.split('.').pop();
-
+    
     try {
-      let data;
-
-      switch (fileExtension) {
-        case FILE_TYPE.ELM:
-          data = await elm.compileToString([filePath], Object.assign({}, options.elm));
-          break;
-
-        default:
-          data = await getFile(filePath);
-          break;
-      }
-
-      send(data);
+      send(await getFile(filePath));
     } catch (error) {
       fail(error);
     }
@@ -54,7 +33,7 @@ function createServer(options) {
 
   function getRelativePath(url) {
     if (url === '/') {
-      return url + defaultUrl;
+      return url + 'index.html';
     }
 
     return url;
@@ -77,7 +56,7 @@ function ready(error) {
   console.log('Server Ready', self.address());
 }
 
-function start(options) {
+function start({ port, ...options }) {
   const server = createServer(options);
-  server.listen(options.port, ready);
+  server.listen(port, ready);
 }

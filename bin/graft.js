@@ -1,30 +1,23 @@
 #! /usr/bin/env node
 
 const server = require('../src/server');
+const worker = require('../src/worker');
 
-const MODES = ['build', 'serve'];
+const processArgs = process.argv.slice(2);
+const options = parse(processArgs);
 
-const [mode, ...processArgs] = process.argv.slice(2);
+server.start({
+  port: 8080,
+  root: 'public',
+  ...options
+});
 
-if (!MODES.includes(mode)) {
-  throw new Error('Invalid mode specified.');
-}
-
-const defaults = {
-  elm: {
-    pathToElm: './node_modules/elm/bin/elm'
-  },
-  defaultUrl: 'index.html',
-  root: './src',
-  port: 8580
-};
-
-const options = Object.assign({}, defaults, parse(processArgs));
-
-switch (mode) {
-  default:
-    server.start(options);
-}
+worker.start({ 
+  pathToElm: './node_modules/elm/bin/elm',
+  entryFile: 'src/Main.elm', 
+  outputFile: 'public/elm.js',
+  ...options
+});
 
 function parse(args) {
   const options = {};
