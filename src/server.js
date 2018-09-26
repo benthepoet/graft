@@ -8,7 +8,7 @@ const FILE_TYPE = {
 };
 
 module.exports = {
-  createServer
+  start
 };
 
 function createServer(options) {
@@ -65,4 +65,19 @@ function getFile(filePath) {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, (error, data) => error ? reject(error) : resolve(data));
   });
+}
+
+function ready(error) {
+  const self = this;
+
+  if (error) {
+    throw error;
+  }
+
+  console.log('Server Ready', self.address());
+}
+
+function start(options) {
+  const server = createServer(options);
+  server.listen(options.port, ready);
 }

@@ -2,7 +2,13 @@
 
 const server = require('../src/server');
 
-const processArgs = process.argv.slice(2);
+const MODES = ['build', 'serve'];
+
+const [mode, ...processArgs] = process.argv.slice(2);
+
+if (!MODES.includes(mode)) {
+  throw new Error('Invalid mode specified.');
+}
 
 const defaults = {
   elm: {
@@ -15,9 +21,10 @@ const defaults = {
 
 const options = Object.assign({}, defaults, parse(processArgs));
 
-server
-  .createServer(options)
-  .listen(options.port, ready);
+switch (mode) {
+  default:
+    server.start(options);
+}
 
 function parse(args) {
   const options = {};
@@ -31,14 +38,4 @@ function parse(args) {
     });
 
   return options;
-}
-
-function ready(error) {
-  const self = this;
-
-  if (error) {
-    throw error;
-  }
-
-  console.log('Server Ready', self.address());
 }
