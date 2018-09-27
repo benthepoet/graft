@@ -10,8 +10,8 @@ function createServer(options) {
   return http.createServer(handleRequest);
 
   async function handleRequest(request, response) {
-    const relativePath = getRelativePath(request.url);
-    const filePath = rootPath + relativePath;
+    const urlPath = resolveUrl(request.url);
+    const filePath = rootPath + urlPath;
     
     try {
       send(await getFile(filePath));
@@ -26,12 +26,12 @@ function createServer(options) {
     }
 
     function send(data) {
-      console.log(request.method, relativePath);
+      console.log(request.method, urlPath);
       response.end(data);
     }
   }
 
-  function getRelativePath(url) {
+  function resolveUrl(url) {
     if (url === '/') {
       return url + 'index.html';
     }

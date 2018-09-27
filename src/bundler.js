@@ -14,7 +14,7 @@ function compile(options) {
 
 async function start(options) {
   const watchPath = path.dirname(path.resolve(options.entry));
-  const recompile = () => compile(options);
+  const recompile = compile.bind(null, options);
   
   chokidar
     .watch(watchPath)
