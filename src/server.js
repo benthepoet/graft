@@ -4,8 +4,8 @@ const path = require('path');
 
 module.exports = { start };
 
-function createServer({ root }) {
-  const rootPath = path.resolve(root);
+function createServer(options) {
+  const rootPath = path.resolve(options.root);
 
   return http.createServer(handleRequest);
 
@@ -56,7 +56,7 @@ function ready(error) {
   console.log('Server Ready', self.address());
 }
 
-function start({ port, ...options }) {
+function start(options) {
   const server = createServer(options);
-  server.listen(port, ready);
+  server.listen(options.port, ready);
 }
