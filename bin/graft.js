@@ -3,7 +3,7 @@
 const bundler = require('../src/bundler');
 const server = require('../src/server');
 
-const [mode, argv] = process.argv.slice(2);
+const [mode, ...argv] = process.argv.slice(2);
 const options = parse(argv);
 
 switch (mode) {
