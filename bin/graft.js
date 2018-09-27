@@ -11,7 +11,7 @@ worker.start(options);
 
 function parse(args) {
   const options = {};
-  const argPattern = /^--(\w+)\=(\w+)$/;
+  const argPattern = /^--(\w+)\=([a-zA-Z0-9\/\.]+)$/;
 
   args
     .filter(arg => argPattern.test(arg))
