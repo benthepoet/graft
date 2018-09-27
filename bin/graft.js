@@ -3,11 +3,22 @@
 const bundler = require('../src/bundler');
 const server = require('../src/server');
 
-const processArgs = process.argv.slice(2);
-const options = parse(processArgs);
+const [mode, argv] = process.argv.slice(2);
+const options = parse(argv);
 
-bundler.start(options);
-server.start(options);
+switch (mode) {
+  case 'build':
+    bundler.compile(options);
+    break;
+
+  case 'serve':
+    bundler.start(options);
+    server.start(options);
+    break;
+
+  default:
+    console.log('Invalid mode specified.');
+}
 
 function parse(args) {
   const options = {};
