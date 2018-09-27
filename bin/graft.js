@@ -6,17 +6,8 @@ const worker = require('../src/worker');
 const processArgs = process.argv.slice(2);
 const options = parse(processArgs);
 
-server.start({
-  port: 8080,
-  root: 'public',
-  ...options
-});
-
-worker.start({ 
-  entryFile: 'src/Main.elm', 
-  outputFile: 'public/elm.js',
-  ...options
-});
+server.start(options);
+worker.start(options);
 
 function parse(args) {
   const options = {};
