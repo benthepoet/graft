@@ -6,13 +6,16 @@ module.exports = { start };
 
 function createServer(options) {
   const rootPath = path.resolve(options.root);
+  const filePattern = /^\/.+\..+$/;
+  const defaultUrl = '/index.html';
 
   return http.createServer(handleRequest);
 
   async function handleRequest(request, response) {
-    const urlPath = resolveUrl(request.url);
+    const isFile = filePattern.test(request.url);
+    const urlPath = isFile ? request.url : defaultUrl;
     const filePath = rootPath + urlPath;
-    
+
     try {
       send(await getFile(filePath));
     } catch (error) {
@@ -29,14 +32,6 @@ function createServer(options) {
       console.log(request.method, urlPath);
       response.end(data);
     }
-  }
-
-  function resolveUrl(url) {
-    if (url === '/') {
-      return url + 'index.html';
-    }
-
-    return url;
   }
 }
 
