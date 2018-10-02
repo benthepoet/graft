@@ -12,8 +12,8 @@ function createServer(options) {
   return http.createServer(handleRequest);
 
   async function handleRequest(request, response) {
-    const isFile = filePattern.test(request.url);
-    const urlPath = isFile ? request.url : defaultUrl;
+    const url = request.url.split('?').shift();
+    const urlPath = filePattern.test(url) ? url : defaultUrl;
     const filePath = rootPath + urlPath;
 
     try {
